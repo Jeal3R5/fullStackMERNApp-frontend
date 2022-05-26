@@ -22,6 +22,26 @@ function Main(props) {
     });
     getPeople();
   };
+
+  const updatePeople = async (person, id) => {
+    await fetch(URL + id, {
+      method: "Put",
+      headers: {
+        "Content-Type": "Application/json",
+      },
+      body: JSON.stringify(person),
+    });
+    getPeople();
+  };
+
+  const deletePeople = async (id) => {
+    await fetch(URL + id, { method: "Delete" });
+    getPeople();
+  };
+
+
+
+
   useEffect(() => {
     getPeople();
   }, []);
@@ -32,7 +52,16 @@ function Main(props) {
           path="/"
           element={<Index people={people} createPeople={createPeople} />}
         />
-        <Route path="/people/:id" element={<Show people={people} />} />
+        <Route
+          path="/people/:id"
+          element={
+            <Show
+              people={people}
+              updatePeople={updatePeople}
+              deletePeople={deletePeople}
+            />
+          }
+        />
       </Routes>
     </main>
   );
